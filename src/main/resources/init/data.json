@@ -1,0 +1,19 @@
+{
+"users":[
+	{
+        "email": "admin",
+        "password": "admin",
+        "role": "ADMIN"
+    },
+    {
+        "email": "test",
+        "password": "test",
+        "role": "USER"
+    },
+    {
+        "email": "mkilic.ktu@gmail.com",
+        "password": "mmk123",
+        "role": "ADMIN"
+    }
+  ]
+}
