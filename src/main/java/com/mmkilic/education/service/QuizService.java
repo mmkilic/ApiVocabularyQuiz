@@ -25,9 +25,15 @@ public class QuizService {
     public Quiz getById(long id){
     	return quizRepo.findById(id).orElseThrow();
     }
+    
     public List<Quiz> getAll(){
     	return quizRepo.findAll();
     }
+    
+    public List<Quiz> search(String search){
+		return quizRepo.search(search);
+	}
+    
     public Quiz save(Quiz quiz) {
     	return quizRepo.save(quiz);
     }
@@ -55,7 +61,7 @@ public class QuizService {
 			if(qa.getAnswer() == null)
 				return qa;
 		}
-    	return null;
+    	return new QAPair();
     }
     
     public AnswerResponse answer(AnswerRequset req) {
@@ -69,9 +75,13 @@ public class QuizService {
 				return AnswerResponse.builder()
 						.quizId(quiz.getId())
 						.qaPairId(qa.getId())
+						.no(qa.getNo())
 						.question(qa.getQuestion())
 						.answer(qa.getAnswer())
 						.correctAnswer(qa.getWord().getTurkish())
+						.english2English(qa.getWord().getEnglish2English())
+						.synonym(qa.getWord().getSynonym())
+						.sentence(qa.getWord().getSentence())
 						.correct(qa.isResult())
 						.build();
 			}
@@ -91,10 +101,10 @@ public class QuizService {
 		quiz = save(quiz);
 		
     	return Scoreboard.builder()
-    			.questionCount(quiz.qaCount())
-    			.correctAnswerCount(quiz.correctAnswerCount())
-    			.incorrectAnswerCount(quiz.incorrectAnswerCount())
-    			.successionRatio(quiz.successionRatio())
+    			.questionCount(quiz.getQuestionCount())
+    			.correctAnswerCount(quiz.getCorrectAnswerCount())
+    			.answeredQuestionCount(quiz.getAnsweredQuestionCount())
+    			.successionRatio(quiz.getSuccessionRatio())
     			.build();
     }
 }

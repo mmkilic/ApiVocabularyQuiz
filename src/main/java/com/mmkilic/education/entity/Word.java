@@ -26,6 +26,8 @@ public class Word {
 
     @Column(nullable = false)
     private String turkish;
+    
+    private String english2English;
 
     private String synonym;
     

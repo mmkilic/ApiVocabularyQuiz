@@ -42,18 +42,23 @@ public class Quiz {
 		return this;
 	}
 	
-	public int qaCount() {
-		return qaPair.size() == 0 ? 0 : qaPair.size() + 1;
+	public int getQuestionCount() {
+		return qaPair.size() == 0 ? 0 : qaPair.size();
 	}
-	public int correctAnswerCount() {
+	public int getCorrectAnswerCount() {
 		return (int) qaPair.stream()
 				.filter(qa -> qa.getWord().getTurkish().equalsIgnoreCase(qa.getAnswer()))
 				.count();
 	}
-	public int incorrectAnswerCount() {
-		return qaCount() - correctAnswerCount();
+	public int getAnsweredQuestionCount() {
+		return (int) qaPair.stream()
+				.filter(qa -> qa.getAnswer() != null)
+				.count();
 	}
-	public int successionRatio() {
-		return (int)Math.round(100 * (correctAnswerCount() / (double) qaCount()));
+	public boolean isCompleted() {
+		return getQuestionCount() == getAnsweredQuestionCount();
+	}
+	public int getSuccessionRatio() {
+		return (int)Math.round(100 * (getCorrectAnswerCount() / (double) getQuestionCount()));
 	}
 }

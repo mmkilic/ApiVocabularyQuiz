@@ -6,6 +6,6 @@ import lombok.Builder;
 public record Scoreboard(
 		int questionCount, 
 		int correctAnswerCount, 
-		int incorrectAnswerCount, 
+		int answeredQuestionCount, 
 		int successionRatio
 		) {}

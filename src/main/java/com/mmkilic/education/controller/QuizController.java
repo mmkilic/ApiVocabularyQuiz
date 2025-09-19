@@ -21,18 +21,23 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/quiz")
+@RequestMapping("/quizzes")
 public class QuizController {
     private final QuizService service;
 
     @GetMapping("/{id}")
-    public Quiz getAll(@PathVariable long id){
+    public Quiz getById(@PathVariable long id){
     	return service.getById(id);
     }
     
     @GetMapping
     public List<Quiz> getAll(){
     	return service.getAll();
+    }
+    
+    @GetMapping("/search")
+    public List<Quiz> search(@RequestParam String search){
+    	return service.search(search);
     }
     
     @PostMapping("/start-new")
