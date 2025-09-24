@@ -78,7 +78,7 @@ public class QuizService {
     	var quiz = getById(req.quizId());
     	
     	for (var qa : quiz.getQaPair()) {
-			if(qa.getWord().getEnglish().equals(req.qaPair().getQuestion())) {
+			if(qa.getId().equals(req.qaPair().getId())) {
 				qa.setAnswer(req.qaPair().getAnswer().trim());
 				qa.setResult(qa.getWord().getTurkish().equalsIgnoreCase(qa.getAnswer()));
 				save(quiz);
