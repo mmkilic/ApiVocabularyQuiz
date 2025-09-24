@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mmkilic.education.dto.AnswerRequset;
 import com.mmkilic.education.dto.AnswerResponse;
+import com.mmkilic.education.dto.NewQuizRequset;
 import com.mmkilic.education.dto.Scoreboard;
 import com.mmkilic.education.entity.QAPair;
 import com.mmkilic.education.entity.Quiz;
@@ -40,9 +41,14 @@ public class QuizController {
     	return service.search(search);
     }
     
+    @GetMapping("/user-name")
+    public List<Quiz> getByUserName(@RequestParam String name){
+    	return service.getByUserName(name);
+    }
+    
     @PostMapping("/start-new")
-    public Quiz start(@RequestParam String quizName) { 
-    	return service.startNew(quizName); 
+    public Quiz start(@RequestBody NewQuizRequset quizReq) { 
+    	return service.startNew(quizReq); 
     }
 
     @PostMapping("/next-qa")

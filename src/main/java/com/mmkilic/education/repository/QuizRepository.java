@@ -13,4 +13,7 @@ import com.mmkilic.education.entity.Quiz;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 	@Query("SELECT q FROM Quiz q WHERE q.quizName like %:search%")
 	List<Quiz> search(@Param("search") String search);
+	
+	@Query("SELECT q FROM Quiz q WHERE q.user.name = :name")
+	List<Quiz> findByUserName(@Param("name") String name);
 }

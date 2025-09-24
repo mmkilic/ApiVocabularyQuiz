@@ -1,6 +1,7 @@
 package com.mmkilic.education.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,8 +36,13 @@ public class Quiz {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
 	//@OneToMany(mappedBy = "quiz")
-	private java.util.List<QAPair> qaPair = new ArrayList<>();
+	private List<QAPair> qaPair = new ArrayList<>();
 
+	@ManyToOne
+	private AppUser user;
+	
+	
+	
 	public Quiz addQA(QAPair qa) {
 		qaPair.add(qa);
 		qa.setQuiz(this);

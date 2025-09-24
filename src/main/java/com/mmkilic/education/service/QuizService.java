@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.mmkilic.education.dto.AnswerRequset;
 import com.mmkilic.education.dto.AnswerResponse;
+import com.mmkilic.education.dto.NewQuizRequset;
 import com.mmkilic.education.dto.Scoreboard;
 import com.mmkilic.education.entity.QAPair;
 import com.mmkilic.education.entity.Quiz;
 import com.mmkilic.education.entity.Word;
+import com.mmkilic.education.repository.AppUserRepository;
 import com.mmkilic.education.repository.QuizRepository;
 import com.mmkilic.education.repository.WordRepository;
 
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class QuizService {
     private final WordRepository wordRepo;
     private final QuizRepository quizRepo;
+    private final AppUserRepository userRepo;
     
     public Quiz getById(long id){
     	return quizRepo.findById(id).orElseThrow();
@@ -34,16 +37,21 @@ public class QuizService {
 		return quizRepo.search(search);
 	}
     
+    public List<Quiz> getByUserName(String name){
+    	return quizRepo.findByUserName(name);
+    }
+    
     public Quiz save(Quiz quiz) {
     	return quizRepo.save(quiz);
     }
     
-    public Quiz startNew(String quizName) {
+    public Quiz startNew(NewQuizRequset req) {
+    	var user = userRepo.findByName(req.userName()).orElseThrow();
     	var words = wordRepo.findAll();
     	Collections.shuffle(words);
     	
     	Quiz quiz = new Quiz();
-    	quiz.setQuizName(quizName);
+    	quiz.setQuizName(req.quizName());
     	int questionNo = 1;
     	for (Word word : words) {
 			quiz.addQA(QAPair.builder()
@@ -52,6 +60,8 @@ public class QuizService {
 					.question(word.getEnglish())
 					.build());
 		}
+    	quiz.setUser(user);
+    	
     	return save(quiz);
     }
     
